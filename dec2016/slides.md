@@ -199,7 +199,7 @@ The compiler takes into account *partial specializations*.
 
 If `void_t<decltype(std::declval<T>().meow())>` doesn't get *SFINAE-d away*, both the types of the original templates and the specialization match.
 
-The partial specialization is priotized and chosen.
+The partial specialization is prioritized and chosen.
 
 <hr>
 
