@@ -274,7 +274,7 @@ Let's take advantage of that...
 
 ```cpp
 auto has_meow = 
-    is_valid([](auto&& x) -> decltype(x.meow()){});
+    is_valid([](auto&& x) -> decltype(x.meow()){ });
 
 static_assert(has_meow(Cat{}), "");
 static_assert(!has_bark(Cat{}), "");
@@ -299,6 +299,18 @@ constexpr auto is_valid(TF)
 }
 ```
 
+<hr>
+<sub>
+
+*Remember:* `is_valid` takes a function as input.
+
+```cpp
+auto has_meow = 
+    is_valid([](auto&& x) -> decltype(x.meow()){ });
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+</sub>
+
 ---
 
 ```cpp
@@ -314,13 +326,15 @@ struct validity_checker
 ```
 
 <hr>
+<sub>
 
-
-Remember that `TF` is the type of:
+*Remember:* `TF` is the type of the lambda below.
 
 ```cpp
 [](auto&& x) -> decltype(x.meow()) { }
 ```
+
+</sub>
 
 ---
 
@@ -566,10 +580,6 @@ static_assert(
 
 ---
 
-<sub>
-This technique is very verbose...
-</sub>
-
 ```cpp
 template <typename T>
 auto pet(const T& x)
@@ -593,6 +603,8 @@ auto pet(const T& x)
 ```
 
 ---
+
+> That's way too verbose...
 
 That's why we need a **macro**.
 
