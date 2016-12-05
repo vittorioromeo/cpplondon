@@ -1,4 +1,4 @@
 #/bin/bash
 
-pdfpc ./slides.pdf
+pdfpc ./slides.pdf "$@"
 
