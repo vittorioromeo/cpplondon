@@ -27,7 +27,7 @@ struct Dog
 
 ```cpp
 template <typename T>
-void make_noise(const T& x)
+void pet(const T& x)
 {
     // Pseudocode:
     
@@ -49,16 +49,16 @@ void make_noise(const T& x)
 ---
 
 ```cpp
-make_noise(Cat{}); // "meow"
-make_noise(Dog{}); // "bark"
-make_noise(int{}); // compile-time error
+pet(Cat{}); // "meow"
+pet(Dog{}); // "bark"
+pet(int{}); // compile-time error
 ```
 
 ---
 
 ```
 template <typename T>
-void make_noise(const T& x){ /* ? */ }
+void pet(const T& x){ /* ? */ }
 ```
 
 * **C++11**: [`std::void_t`](http://en.cppreference.com/w/cpp/types/void_t) and [`std::enable_if`](http://en.cppreference.com/w/cpp/types/enable_if).
@@ -207,20 +207,20 @@ The partial specialization is prioritized and chosen.
 
 ---
 
-After defining the `has_bark` detector class *(which is trivial to implement, as well)*, all that's left to do is use `std::enable_if` to constrain `make_noise`.
+After defining the `has_bark` detector class *(which is trivial to implement, as well)*, all that's left to do is use `std::enable_if` to constrain `pet`.
 
 ---
 
 ```cpp
 template <typename T>
-auto make_noise(const T& x)
+auto pet(const T& x)
     -> typename std::enable_if<has_meow<T>{}>::type
 {
     x.meow();
 }
 
 template <typename T>
-auto make_noise(const T& x)
+auto pet(const T& x)
     -> typename std::enable_if<has_bark<T>{}>::type
 {
     x.bark();
@@ -362,7 +362,7 @@ I explain how in my [**CppCon 2016 talk**:
 
 ```cpp
 template <typename T>
-auto make_noise(const T& x)
+auto pet(const T& x)
 {
     auto has_meow = is_valid([](auto&& x) 
         -> decltype(x.meow()){ });
@@ -394,7 +394,7 @@ There are some *objective advantages*, though:
 
 * Expression validity detector instantiation is **local to the function scope**.
 
-* There is a **single overload** of `make_noise`. 
+* There is a **single overload** of `pet`. 
 
 * Compile-time branching is **local to the function scope**.
 
@@ -430,7 +430,7 @@ There are some *objective advantages*, though:
 
 ```cpp
 template <typename T>
-auto make_noise(const T& x)
+auto pet(const T& x)
 {
     if constexpr(IS_VALID(_0.meow())(T))
     {
@@ -572,7 +572,7 @@ This technique is very verbose...
 
 ```cpp
 template <typename T>
-auto make_noise(const T& x)
+auto pet(const T& x)
 {
     if constexpr(is_valid([](auto _0) constexpr
        ->decltype(_0.meow())(T))
